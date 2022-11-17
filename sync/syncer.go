@@ -149,6 +149,14 @@ func (s *Syncer) Run(ctx context.Context) error {
 				// immediately move to a sync.
 				doFetch = false
 				continue
+			} else if err != nil {
+				logger.Info(
+					"msg", "unexpected error fetching devices",
+					"phase", phaseLabel[doFetch],
+					"cursor", cursor,
+					"err", err,
+				)
+				break
 			}
 		} else {
 			resp, err = s.client.SyncDevices(ctx, s.name, opts...)
